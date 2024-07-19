@@ -1,0 +1,170 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteBanDienThoai.master.cs" Inherits="ShopBanDienThoai.SiteBanDienThoai" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Website Bán điện thoại NPT</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        .body {
+            padding: 0;
+            background-color: #fff6ed;
+            font-family: 'Montserrat';
+            height: 100%;
+            width: 100%;
+        }
+        .container {
+            display: grid;
+            grid-template-areas: 
+                "top-left top-right "
+                "left bottom";
+            grid-template-columns: 350px 1fr;
+            grid-template-rows: auto 1fr;
+            grid-gap: 0px;
+            background-color: #fff6ed;
+            height: 100vh;
+        }
+
+        .top-right{
+            grid-area: top-right;
+            background-color: #f04806;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+        }
+
+        .top-left {
+            grid-area: top-left;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            padding-top: 15px;
+            background-color: #f04806;
+        }
+
+        .bottom {
+            grid-area: bottom;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            margin: 10px;
+        }
+
+        .left {
+            padding-top: 20px;
+            grid-area: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /*background-color: ???;*/
+            /*height: 100%;*/
+            /*box-sizing: border-box;*/
+            border-right: orange solid 2px;
+        }
+
+        .left-top {
+            margin-bottom: 50px;
+        }
+
+        .left-bottom{
+            width: 75%;
+            padding-top:50px;
+            border-top:orange solid 1px;
+        }
+
+        .image {
+            border-radius: 20px;
+            height:40px; 
+            width:80px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .image:hover{
+            transform: scale(1.25);
+        }
+
+        .logo{
+            Height:65px;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .logo:hover{
+            transform: scale(1.27);
+        }
+
+        .linkbutton {
+            color: #ffffff;
+        }
+        .linkbutton:hover {
+            background-color: #3a2df0;
+            color: #ffffff;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 20px;
+            font-size: 20px
+        }
+    </style>
+</head>
+
+<body class="body">
+    <form id="form1" runat="server">
+        <div class="container">
+              <div class="top-right">
+                    <%--<span style="margin-left: 5px"><b>DANH MỤC HÃNG</b></span>--%>
+                    <asp:DataList ID="DataListHang" runat="server" CellSpacing="10" RepeatDirection="Horizontal">
+                        <ItemTemplate>
+                            <asp:ImageButton ID="ImageButtonHang" runat="server" ImageUrl='<%# "~/HinhAnhHang/"+Eval("hinhanhhang") %>' OnClick="ImageButtonHang_Click" class="image" CommandArgument='<%# Eval("mahang") %>'/>
+                        </ItemTemplate>
+                    </asp:DataList>
+                    <asp:DataList ID="DataListLoai" runat="server" RepeatDirection="Horizontal" SeparatorStyle-HorizontalAlign="Center">
+                        <ItemTemplate>
+                            <div style="text-align: center; margin-right: 10px; margin-left: 10px">
+                                <asp:LinkButton ID="LinkButtonLoai" runat="server" CommandArgument='<%# Eval("maloai") %>' Text='<%# Eval("tenloai") %>' Font-Bold="true" Font-Underline="false" OnClick="LinkButtonLoai_Click" CssClass="linkbutton"></asp:LinkButton>
+                            </div>
+                        </ItemTemplate>
+                        <SeparatorTemplate>
+                            <div style="display: inline-block; vertical-align: text-bottom; margin: 13px; border-left: 3px solid #ffffff; height: 10px"; ></div>
+                        </SeparatorTemplate>
+                    </asp:DataList>
+                </div>
+                <div class="top-left">
+                    <asp:ImageButton ID="ImageButtonLogo" runat="server" OnClick="ImageButtonLogo_Click" ImageUrl="~/Images/fpts.png" CssClass="logo" />
+                    
+                </div>
+            <div class="bottom">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
+            <div class="left">
+                <div class="left-top">
+                    <asp:Login ID="Login1" runat="server" FailureText="Đã nhập sai, mời bạn nhập lại" LoginButtonText="Đăng nhập" PasswordLabelText="Mật khẩu" RememberMeText="Nhớ mật khẩu của tôi" TitleText="Thông tin đăng nhập" UserNameLabelText="Tên đăng nhập">
+                        <TitleTextStyle Font-Bold="True" />
+                    </asp:Login>
+                </div>
+                <div class="left-bottom">
+                     <span style="color:#c4544a"><b>THỐNG KÊ LƯỢT TRUY CẬP</b></span>
+                    <asp:Table ID="Table1" runat="server">
+                        <asp:TableRow runat="server">
+                            <asp:TableCell runat="server" HorizontalAlign="Right">Lượt truy cập:</asp:TableCell>
+                            <asp:TableCell runat="server">
+                                <asp:Label ID="lblSoLuotTC" runat="server" ForeColor="#c4544a" Font-Bold="True"></asp:Label>     
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow runat="server">
+                            <asp:TableCell runat="server" HorizontalAlign="Right">Online:</asp:TableCell>
+                            <asp:TableCell runat="server">
+                                <asp:Label ID="lblOnline" runat="server"  ForeColor="#c4544a" Font-Bold="True"></asp:Label>
+                            </asp:TableCell>
+                        </asp:TableRow>
+                    </asp:Table>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
